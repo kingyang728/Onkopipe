@@ -1,0 +1,15 @@
+name: pipeline_env
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+prefix: /home/kingyang/miniconda3/envs/pipeline_env
+dependencies:
+  - snakemake = 5.27.4
+#   - bwa =0.7.17
+#   - samtools =1.10
+#   - gatk4 = 4.1.9.0
+#   - bcftools = 1.10
+#   - picard = 2.23.8
+  # - trim-galore = 0.6.6
+  # - cutadapt = 2.10
