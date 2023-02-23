@@ -3,7 +3,7 @@ channels:
   - conda-forge
   - bioconda
   - defaults
-prefix: /home/kingyang/miniconda3/envs/pipeline_env
+# prefix: /envs/pipeline_env
 dependencies:
   - snakemake = 5.27.4
 #   - bwa =0.7.17
