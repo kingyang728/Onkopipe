@@ -42,7 +42,7 @@ hg38access_bed: bed_files/`antitarget.bed`). Alternatively, users can directly u
 
 
 #### Step 4: Prepare the FASTQ raw data
-Make sure there only one sample's FASTQ file located in your `[raw FASTQ data path]` directory. The FASTQ file name must follow illumina naming convention rule depicted in the [website](https://support.illumina.com/help/BaseSpace_OLH_009008/Content/Source/Informatics/BS/NamingConvention_FASTQ-files-swBS.htm)
+Make sure there only one sample's FASTQ file located in your `[raw FASTQ data path]` directory. The FASTQ file name must follow illumina naming convention rule depicted in this [website](https://support.illumina.com/help/BaseSpace_OLH_009008/Content/Source/Informatics/BS/NamingConvention_FASTQ-files-swBS.htm)
     
     Eg. SampleName_S1_L001_R1_001.fastq.gz, SampleName_S1_L001_R1_001.fastq.gz
 
