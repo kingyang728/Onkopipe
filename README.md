@@ -94,9 +94,9 @@ docker run -v [ref file path]:/data/ref/ \
 For example:
 
 ```
- docker run -v /home/kingyang/harddisk/DNA_Seq_pipeline/dna_seq_pipeline_snakemakeconda/Ref_data/:/data/ref/ \
+docker run -v /sybig/scratch/Jingyu/DNA_Seq_pipeline/dna_seq_pipeline_snakemakeconda/Ref_data/:/data/ref/ \
+-v /sybig/scratch/Jingyu/DNA_Seq_pipeline/NA12878/Fastq_test/:/data/InputFastqDir/ \
 -v /sybig/scratch/Jingyu/DNA_Seq_pipeline/Onkopipe_docker/dna_seq_pipeline-master/bed_files/:/data/bed_files/ \
--v /home/kingyang/harddisk/SSH_server_Data/Fastq_test:/data/InputFastqDir/ \
 -v $(pwd):/work snakemake_local snakemake -j all --use-conda
 
 ```
