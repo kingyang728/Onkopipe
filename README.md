@@ -1,7 +1,7 @@
 Dockerized DNA-seq-pipeline
 ==================================
 
-This Docker version snakemake pipeline implements the DNA-seq pipeline for calling SNV/CNV/SV variants.
+This Docker version snakemake pipeline implements the DNA-seq pipeline for calling SNV/CNV/SV variants from raw FASTQ  data.
 
 ## Authors
 
@@ -20,30 +20,31 @@ git clone [link]
 #### Step 2: Download reference data for DNA-seq-pipeline:
 1. Download following GDC genome reference data into your `[ref file path]` directory.
    
-   1. [Reference genome(fastq)](https://api.gdc.cancer.gov/data/254f697d-310d-4d7d-a27b-27fbf767a834).
+   1. [Reference genome(FASTQ)](https://api.gdc.cancer.gov/data/254f697d-310d-4d7d-a27b-27fbf767a834).
    2. [BWA Index](https://api.gdc.cancer.gov/data/25217ec9-af07-4a17-8db9-101271ee7225).
    3. [GATK Index](https://api.gdc.cancer.gov/data/2c5730fb-0909-4e2a-8a7a-c9a7f8b2dad5)
 
 2. Download following GATK reference data into your `[ref file path]` directory.
 
-   1. know_dbsnp_vcf ([Homo_sapiens_assembly38.dbsnp138.vcf](https://storage.cloud.google.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.dbsnp138.vcf), [Homo_sapiens_assembly38.dbsnp138.vcf.idx](https://storage.cloud.google.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.dbsnp138.vcf.idx)) 
-   2. interval_list ([wgs_calling_regions.hg38.interval_list](https://storage.cloud.google.com/genomics-public-data/resources/broad/hg38/v0/wgs_calling_regions.hg38.interval_list))
-   3. gatk_germline_resource ([af-only-gnomad.hg38.vcf.gz](https://storage.cloud.google.com/gatk-best-practices/somatic-hg38/af-only-gnomad.hg38.vcf.gz), [af-only-gnomad.hg38.vcf.gz.tbi](https://storage.cloud.google.com/gatk-best-practices/somatic-hg38/af-only-gnomad.hg38.vcf.gz.tbi)), gatk_panel_of_normal([1000g_pon.hg38.vcf.gz](https://storage.cloud.google.com/gatk-best-practices/somatic-hg38/1000g_pon.hg38.vcf.gz),[1000g_pon.hg38.vcf.gz.tbi](https://storage.cloud.google.com/gatk-best-practices/somatic-hg38/1000g_pon.hg38.vcf.gz.tbi)) 
-   4. exac_common_knownsite ([small_exac_common_3.hg38.vcf.gz](https://storage.cloud.google.com/gatk-best-practices/somatic-hg38/small_exac_common_3.hg38.vcf.gz), [small_exac_common_3.hg38.vcf.gz.tbi](https://storage.cloud.google.com/gatk-best-practices/somatic-hg38/small_exac_common_3.hg38.vcf.gz.tbi))
+   1. know_dbsnp_vcf ([dbsnp_146.hg38.vcf.gz](wget -c ftp://gsapubftp-anonymous@ftp.broadinstitute.org/bundle/hg38/dbsnp_146.hg38.vcf.gz), [dbsnp_146.hg38.vcf.gz.tbi](wget -c ftp://gsapubftp-anonymous@ftp.broadinstitute.org/bundle/hg38/dbsnp_146.hg38.vcf.gz.tbi))
+   2. know_dbsnp_vcf ([Homo_sapiens_assembly38.known_indels.vcf.gz](https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.known_indels.vcf.gz), [Homo_sapiens_assembly38.known_indels.vcf.gz.tbi](https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.known_indels.vcf.gz.tbi))
+   3. gold_standard_indels ([Mills_and_1000G_gold_standard.indels.hg38.vcf.gz](https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz), [Mills_and_1000G_gold_standard.indels.hg38.vcf.gz.tbi](https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz.tbi))
+   4. 1000G_snpshigh_confidence ([1000G_phase1.snps.high_confidence.hg38.vcf.gz](https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/1000G_phase1.snps.high_confidence.hg38.vcf.gz), [1000G_phase1.snps.high_confidence.hg38.vcf.gz.tbi](https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/1000G_phase1.snps.high_confidence.hg38.vcf.gz.tbi))
+   5. interval_list ([wgs_calling_regions.hg38.interval_list](https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/wgs_calling_regions.hg38.interval_list))
+   6. af_only_gnomad ([af-only-gnomad.hg38.vcf.gz](https://storage.googleapis.com/gatk-best-practices/somatic-hg38/af-only-gnomad.hg38.vcf.gz), [af-only-gnomad.hg38.vcf.gz.tbi](https://storage.googleapis.com/gatk-best-practices/somatic-hg38/af-only-gnomad.hg38.vcf.gz.tbi))
+   7. gatk_panel_of_normal ([1000g_pon.hg38.vcf.gz](https://storage.googleapis.com/gatk-best-practices/somatic-hg38/1000g_pon.hg38.vcf.gz), [1000g_pon.hg38.vcf.gz.tbi](https://storage.googleapis.com/gatk-best-practices/somatic-hg38/1000g_pon.hg38.vcf.gz.tbi))
+   8. exac_common_knownsite ([small_exac_common_3.hg38.vcf.gz](https://storage.googleapis.com/gatk-best-practices/somatic-hg38/small_exac_common_3.hg38.vcf.gz), [small_exac_common_3.hg38.vcf.gz.tbi](https://storage.googleapis.com/gatk-best-practices/somatic-hg38/small_exac_common_3.hg38.vcf.gz.tbi))
+   
+
+#### Step 3: Download bed files for CNVkit:
+Download the target and antitarget bed files for CNVkit in CNV detection. Store bed files in your `[CNVkit bed path]` directory and configure the file name and path in config.yaml file (hg38gene_bed: bed_files/`target.bed`
+hg38access_bed: bed_files/`antitarget.bed`). Alternatively, users can directly use the default bed files we provided.
 
 
-#### Step 3: Download control bam data for DNA-seq-pipeline:
-Store the corresponding control bam and index file as well as the reference genes interval bed file in your `[control bam path]` directory. You can directly use our default gene intervel bed `genesHG38.bed` been provided.
-If there is no corresponding control bam, you can download the public control cram file [NA12878](ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data_collections/1000_genomes_project/data/CEU/NA12878/exome_alignment/NA12878.alt_bwamem_GRCh38DH.20150826.CEU.exome.cram) into your `[control bam path]` directory.
-Modify the 'CramToBam.sh' script with your `[control bam path]` and `[ref file path]` and run it to generate the control bam file.
-Start terminal and run the command below:
-	
-	sh CramToBam.sh
-
-#### Step 4: Prepare the fastq raw data
-Make sure there only one sample's fastq data located in your `[raw fastq data path]` directory.
+#### Step 4: Prepare the FASTQ raw data
+Make sure there only one sample's FASTQ file located in your `[raw FASTQ data path]` directory. The FASTQ file name must follow illumina naming convention rule depicted in the [website](https://support.illumina.com/help/BaseSpace_OLH_009008/Content/Source/Informatics/BS/NamingConvention_FASTQ-files-swBS.htm)
     
-    Eg. sample.R1.fq, sample.R2.fq
+    Eg. SampleName_S1_L001_R1_001.fastq.gz, SampleName_S1_L001_R1_001.fastq.gz
 
 
 #### Step 5: Build the docker image.
@@ -65,8 +66,8 @@ docker build -t snakemake_local .
 
 ```
 docker run -v [ref file path]:/data/ref/ \
--v [raw fastq data path]:/data/InputFastqDir/ \
--v [control bam path]:/data/control_bam/ \
+-v [raw FASTQ data path]:/data/InputFastqDir/ \
+-v [CNVkit bed path]:/data/bed_files/ \
 -v [local snakemake pipeline path]:/work snakemake_local snakemake -v
 
 ```
@@ -75,17 +76,17 @@ docker run -v [ref file path]:/data/ref/ \
 
 ```
 docker run -v [ref file path]:/data/ref/ \
--v [raw fastq data path]:/data/InputFastqDir/ \
--v [control bam path]:/data/control_bam/ \
+-v [raw FASTQ data path]:/data/InputFastqDir/ \
+-v [CNVkit bed path]:/data/bed_files/ \
 -v [local snakemake pipeline path]:/work snakemake_local snakemake -j all --use-conda -n
 
 ```
-3. Run pipeline and get the bam and vcf files in local.
+3. Run pipeline and get the bam and vcf files.
 
 ```
 docker run -v [ref file path]:/data/ref/ \
 -v [raw fastq data path]:/data/InputFastqDir/ \
--v [control bam path]:/data/control_bam/ \
+-v [CNVkit bed path]:/data/bed_files/ \
 -v [local snakemake pipeline path]:/work snakemake_local snakemake -j all --use-conda
 
 ```
@@ -94,9 +95,9 @@ For example:
 
 ```
  docker run -v /home/kingyang/harddisk/DNA_Seq_pipeline/dna_seq_pipeline_snakemakeconda/Ref_data/:/data/ref/ \
--v /home/kingyang/harddisk/DNA_Seq_pipeline/dna_seq_pipeline_snakemakeconda/control_bam/:/data/control_bam/ \
+-v /sybig/scratch/Jingyu/DNA_Seq_pipeline/Onkopipe_docker/dna_seq_pipeline-master/bed_files/:/data/bed_files/ \
 -v /home/kingyang/harddisk/SSH_server_Data/Fastq_test:/data/InputFastqDir/ \
 -v $(pwd):/work snakemake_local snakemake -j all --use-conda
 
 ```
-4. Modify the Snakemake file to generate the specific results in need. 
+4. Modify the Snakemake file to meet the specific requirement in need. 
