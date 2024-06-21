@@ -51,7 +51,7 @@ Make sure there only one sample's FASTQ file located in your `[raw FASTQ data pa
 1. Switch to the docker DNA-seq-pipeline project-folder:
 
 ```
-cd ./dna_seq_pipeline
+cd ./Onkopipe-main
 ```
 
 2. Build the Docker Image (named onkopus):
